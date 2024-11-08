@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- borrowing techniques from https://codepen.io/jonnowitts/pen/YdYjmd -->
+
+
+<script>
+
+uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
+
+async function fetchData(uri) {
+  try {
+    const response = await fetch(uri);
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    const fetchedData = await response.json();
+    console.log(fetchedData);
+    return fetchedData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+
+function init() {
+    const cardFront = document.getElementById('card-front');
+    const cardBack = document.getElementById('card-back');
+
+    fetchData(uri).then(data => {
+
+        // street name
+        cardFront.innerHTML += `<div><span>${data.streetname}</span></div>`;
+
+        // description
+        cardFront.innerHTML += `<div><span>${data.description}</span></div>`;
+
+
+
+
+
+    console.log('Data received:', data);
+});
+    
+}
+
+</script>
+ 
+<head>
+    <meta charset="UTF-8">
+    <title>Collector Card Flip</title>
+    <style>
+        /* Scene setup with perspective and entry animation */
+        .card-scene {
+            width: 300px;
+            height: 400px;
+            perspective: 800px;
+            animation: cardAppear 1.4s forwards;
+        }   
+
+        /* Keyframes for entry animation */
+        @keyframes cardAppear {
+            0% {
+                transform: rotate3d(0, 0, 1, 15deg) translate3d(0, -100vh, 0);
+            }
+            30% {
+                transform: rotate3d(0, 0, 0, 0deg) translate3d(0, 0, 0);
+            }
+            65% {
+                transform: rotate3d(0, 0, 0, 0deg) translate3d(0, 0, 0) scale3d(1, 1, 1);
+            }
+            80% {
+                transform: rotate3d(0, 0, 1, -5deg) scale3d(1.05, 1.05, 1);
+            }
+        }
+
+        /* Card styling */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(180deg); /* Initial state rotated 180deg */
+        }
+
+        /* Flip animations */
+        .card--flipped {
+            animation: cardFlip 0.275s forwards linear;
+        }
+
+        .card--unflipped {
+            animation: cardUnFlip 0.275s forwards linear;
+        }
+
+        @keyframes cardFlip {
+            0% {
+                transform: rotateZ(0deg) rotateY(180deg);
+            } 
+            50% {
+                transform: rotateZ(-10deg) rotateY(90deg);
+            }
+            100% {
+                transform: rotateZ(0deg) rotateY(0deg);
+            }
+        }
+
+        @keyframes cardUnFlip {
+            0% {
+                transform: rotateZ(0deg) rotateY(0deg);
+            } 
+            50% {
+                transform: rotateZ(-10deg) rotateY(90deg);
+            }
+            100% {
+                transform: rotateZ(0deg) rotateY(180deg);
+            }
+        }
+
+        /* Card faces */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 4px solid #e7e4d5;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Front and back face styling */
+        .card-front {
+            background-color: #8cd1b3;
+            transform: rotateY(180deg); /* Front face is rotated 180deg */
+        }
+
+        .card-back {
+            background-color: #4e79ad;
+        }
+    </style>
+</head>
+<body  onload="init()">
+
+<h1>Street card example <span>(Click to flip!)</span></h1>
+<div class="card-scene">
+    <div id="card" class="card">
+        <div id="card-back" class="card-face card-back">
+            <!-- Back content goes here --> 
+        </div>
+        <div id="card-front" class="card-face card-front">
+            <!-- Front content goes here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const card = document.getElementById('card');
+    let isFlipped = false;
+
+    card.addEventListener('click', () => {
+        if (isFlipped) {
+            card.classList.remove('card--flipped');
+            card.classList.add('card--unflipped');
+        } else {
+            card.classList.remove('card--unflipped');
+            card.classList.add('card--flipped');
+        }
+        isFlipped = !isFlipped;
+    });
+</script>
+
+</body>
+</html>
