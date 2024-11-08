@@ -27,22 +27,54 @@ function init() {
     const cardFront = document.getElementById('card-front');
     const cardBack = document.getElementById('card-back');
 
+    const customRenderers = {
+        'streetname': {
+            render: value => `<div class="card-streetname"><h2>${value}</h2></div>`,
+            target: 'front'
+        },
+        'description': {
+            render: value => `<div class="card-description"><p>${value}</p></div>`,
+            target: 'front'
+        },
+        'image': {
+            render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
+            target: 'front'
+        },
+        'date': {
+            render: value => `<div class="card-date"><time datetime="${value}">${new Date(value).toLocaleDateString()}</time></div>`,
+            target: 'back'
+        },
+        'multiline': {
+            render: value => ``,
+            target: 'front'
+        },
+        'identifier': {
+            render: value => ``,
+            target: 'front'
+        }
+    };
+
     fetchData(uri).then(data => {
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                let htmlContent;
+                let targetElement = cardFront;
 
-        // street name
-        cardFront.innerHTML += `<div><span>${data.streetname}</span></div>`;
+                if (customRenderers[key]) {
+                    htmlContent = customRenderers[key].render(data[key]);
+                    targetElement = customRenderers[key].target === 'back' ? cardBack : cardFront;
+                } else {
+                    htmlContent = `<div class="card-${key}"><span>${data[key]}</span></div>`;
+                }
 
-        // description
-        cardFront.innerHTML += `<div><span>${data.description}</span></div>`;
+                targetElement.innerHTML += htmlContent;
+            }
+        }
 
-
-
-
-
-    console.log('Data received:', data);
-});
-    
+        console.log('Data received:', data);
+    });
 }
+
 
 </script>
  
