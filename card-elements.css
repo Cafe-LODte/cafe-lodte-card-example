@@ -1,0 +1,5 @@
+.card-image img {
+    max-height: 400px; /* Replace 200px with your desired maximum height */
+    max-width: 100%;
+    height: auto;
+  }
