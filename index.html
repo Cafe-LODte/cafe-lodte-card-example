@@ -1,9 +1,6 @@
     <!DOCTYPE html>
     <html lang="en">
-
     <!-- borrowing techniques from https://codepen.io/jonnowitts/pen/YdYjmd -->
-
-
     <script>
 
     uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
@@ -41,8 +38,10 @@
                 target: 'front'
             },
             'date': {
-                render: value => `<div class="card-date"><time datetime="${value}">${new Date(value).toLocaleDateString()}</time></div>`,
-                target: 'back'
+                render: value => `<div class="card-date">
+                    <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
+                    </div>`,
+                target: 'front'
             },
             'multiline': {
                 render: value => ``,
@@ -51,7 +50,12 @@
             'identifier': {
                 render: value => ``,
                 target: 'front'
-            }
+            },
+            'point': {
+                render: value => ``,
+                target: 'front'
+            },
+
         };
 
         fetchData(uri).then(data => {

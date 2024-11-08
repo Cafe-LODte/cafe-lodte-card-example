@@ -3,3 +3,18 @@
     max-width: 100%;
     height: auto;
   }
+
+.card-date {
+    font-size: 16px;
+    color: #333;
+}
+
+.card-date-start {
+    font-weight: bold;
+    color: blue;
+}
+
+.card-date-end {
+    font-weight: bold;
+    color: green;
+}
