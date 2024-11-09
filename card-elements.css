@@ -37,15 +37,15 @@
 
 .card-image img {
     max-height: 400px; /* Replace 200px with your desired maximum height */
-    max-width: 100%;
+    max-width: 350px;
     height: auto;
 }
 
 
-
 .card-description {
     background-color: #1E2956;
-    width: 100%;
+    width: 330px;
+    height: 400px;
     float: left;
 }
 
@@ -53,7 +53,7 @@
     color: white;
     margin: 1em;
     padding: 1em;
-
+    border-radius: .5em;
 }
 
 .card-person {
