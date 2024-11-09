@@ -75,12 +75,24 @@ function hideCollection() {
     document.getElementById('mycollection').style.display = "none";
 }
 
+function closeadded() {
+    document.getElementById('added').style.display = "none";
+
+}
+
 function add_to_collection() {
     //console.log(fetchedData);
     fetchData.theme=theme;
     const jsonString = JSON.stringify(fetchedData);
     //console.log(uri);
     localStorage.setItem(uri, jsonString);
+
+    document.getElementById('added').innerHTML="<h1>Great, you've collected another card in the "+theme+" catagory!</h1>";
+    document.getElementById('added').style.display = "block";
+
+     document.getElementById('addbutton').innerHTML="<span>&#9989;</span>";
+                
+
 }
 
 var theme;
@@ -117,10 +129,14 @@ function show_card(_theme,_uri) {
             render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
             target: 'front'
         },
-        'streetimage': {
+        'imageback': {
             render: value => `<div class="card-streetimage"><img src="${value}" alt="Image"></div>`,
             target: 'back'
         },
+        'videoback': {
+            render: value => `<div class="card-videoimage"><video width="320" height="240" controls><source src="${value}" type="video/ogg"></video></div>`,
+            target: 'back'
+        },        
         'date': {
             render: value => `<div class="card-date">
                 <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
@@ -200,6 +216,7 @@ function show_card(_theme,_uri) {
         isFlipped = !isFlipped;
     });
 
+    document.getElementById('addbutton').innerHTML="<span>&#128933;</span>";
 
     document.getElementById('cardscene').style.display = "block";
 
@@ -289,6 +306,38 @@ function init() {
 
     // Add the button to the map
     showCollectionControl.addTo(map);
+
+    // TODO current location
+
+    const imageUrl1 = 'https://hackalod.coret.org/icons/athletes.png';
+    const imageBounds1 = [[52.3948, 4.9025], [52.3978, 4.9055]]; 
+    L.imageOverlay(imageUrl1, imageBounds1).addTo(map);
+
+    const imageUrl5 = 'https://hackalod.coret.org/icons/writers.png';
+    const imageBounds5 = [[52.3669, 4.8772], [52.3699, 4.8772]]; 
+    L.imageOverlay(imageUrl5, imageBounds5).addTo(map);
+
+/*   const imageUrl2 = 'https://hackalod.coret.org/icons/artists.png';
+    const imageBounds2 = [[52.39477, 4.90254], [52.39687, 4.908555]]; 
+    L.imageOverlay(imageUrl2, imageBounds2).addTo(map);
+
+
+    const imageUrl3 = 'https://hackalod.coret.org/icons/composers.png';
+    const imageBounds3 = [[52.39477, 4.90254], [52.39687, 4.908555]]; 
+    L.imageOverlay(imageUrl3, imageBounds3).addTo(map);
+*/
+    const imageUrl4 = 'https://hackalod.coret.org/icons/women.png';
+    const imageBounds4 = [[52.3536, 4.8451], [52.3566, 4.8481]]; 
+    L.imageOverlay(imageUrl4, imageBounds4).addTo(map);
+
+    const imageUrl6 = 'https://hackalod.coret.org/icons/politicians.png';
+    const imageBounds6 = [[52.3846, 4.8817], [52.3886, 4.8857]]; 
+    L.imageOverlay(imageUrl6, imageBounds6).addTo(map);
+
+
+    const imageUrl7 = 'https://hackalod.coret.org/icons/mathematicians.png';
+    const imageBounds7 = [[52.3582, 4.9200], [52.3602, 4.9230]]; 
+    L.imageOverlay(imageUrl7, imageBounds7).addTo(map);
 
     fetchData();
 }

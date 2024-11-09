@@ -92,6 +92,10 @@
     width: 100%
 }
 
+.card-videoimage video {
+    width: 100%
+}
+
 .card-date {
     font-size: 16px;
     color: #333;

@@ -26,6 +26,7 @@ body { margin:0;overflow: hidden; }
     text-align:center;
     background-image: url(https://hackalod.coret.org/assets/B00000023453.jpg);
 }
+.card-streetimage { display:none}
 #startgame { width:70%;background-color:#ef6e22;color:white;font-size:2em;padding:1em}
 #mycollection  h1 { background-color:#2580a4;padding:20px;margin-top:-5px;color:white }
 #mycollection  {
@@ -45,3 +46,7 @@ body { margin:0;overflow: hidden; }
 #collectionitems { background-color:rgb(239, 233, 233); padding: 30px;}
 .collitem img { vertical-align: middle;margin:10px;}
 .collitem { font-size:2em }
+
+#added { 
+    display: none; width:80vw; position:absolute;left:10vw;top:10vw;background-color:#ef6e22;padding:10px; z-index:2000;color:white 
+}
