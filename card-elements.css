@@ -1,3 +1,8 @@
+:root {
+    --theme-color: #ff0000;
+    --theme-text:#fff;
+}
+
 .share-icon svg {
     width: 2em;  /* Adjust the size as needed */
     height: 2em; /* Adjust the size as needed */
@@ -12,7 +17,7 @@
     cursor: pointer;
     float: right; 
     color: white;
-    padding: .3em;
+    padding: .3em 1em .3em .3em;
 }
 
 .add-icon {
@@ -35,8 +40,8 @@
 }
 
 .card-streetname h2 {
-    background-color: #1E2956;
-    color: white;
+    background-color: var(--theme-color);
+    color: var(--theme-text);
     padding: .5em;
     margin: .2em;
     margin-top: .2em;
@@ -59,14 +64,14 @@
 
 
 .card-description {
-    background-color: #1E2956;
+    background-color: var(--theme-color);
     width: 330px;
     height: 400px;
     float: left;
 }
 
 .card-description p {
-    color: white;
+    color:var(--theme-text);
     margin: 1em;
     padding: 1em;
     border-radius: .5em;

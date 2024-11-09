@@ -57,6 +57,9 @@ var uri;
 function show_card(_theme,_uri) {   
     theme=_theme;
     uri=_uri;
+    
+    document.documentElement.style.setProperty('--theme-color', theme_color(theme));
+    document.documentElement.style.setProperty('--theme-text', getTextColor(theme_color(theme)));
 
     const cardFront = document.getElementById('card-front-dynamic-content');
     const cardBack = document.getElementById('card-back');
@@ -164,6 +167,7 @@ function show_card(_theme,_uri) {
 
         isFlipped = !isFlipped;
     });
+
 
     document.getElementById('cardscene').style.display = "block";
 
@@ -300,3 +304,30 @@ function processData(data) {
       });
     });
   }
+
+  function getTextColor(backgroundColor) {
+    // Check if the background color is in hex format (e.g., "#RRGGBB" or "#RGB")
+    if (backgroundColor.startsWith("#")) {
+      let hex = backgroundColor.slice(1);
+  
+      // Expand shorthand form (e.g., "#03F") to full form ("0033FF")
+      if (hex.length === 3) {
+        hex = hex.split("").map(c => c + c).join("");
+      }
+  
+      // Convert hex to RGB values
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+  
+      // Calculate brightness
+      const brightness = (0.299 * r + 0.587 * g + 0.114 * b);
+  
+      // Return white or black based on brightness threshold
+      return brightness > 146 ? "#000000" : "#FFFFFF";  // Black or White
+    } else {
+      console.error("Please provide a valid hex color (e.g., #FFFFFF).");
+      return null;
+    }
+  }
+  
