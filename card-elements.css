@@ -117,14 +117,14 @@
     max-height: 400px; /* Replace 200px with your desired maximum height */
     max-width: 350px;
     height: auto;
-    margin: 5px 10px;
+    margin: 16px 10px;
 }
 
 
 .card-description {
         background-color: var(--theme-color);
         width: 100%;
-        height: 400px;
+        height: 750px;
         /* float: left; */
 }
 
@@ -147,6 +147,10 @@
 
 .card-streetimage img {
     width: 100%
+}
+
+.card-imageback img {
+    width:100%;
 }
 
 .card-videoimage video {

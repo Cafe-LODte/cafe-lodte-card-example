@@ -143,7 +143,7 @@ function show_card(_theme,_uri) {
             target: 'front'
         },
         'imageback': {
-            render: value => `<div class="card-streetimage"><img src="${value}" alt="Image"></div>`,
+            render: value => `<div class="card-imageback"><img src="${value}" alt="Image"></div>`,
             target: 'back'
         },
         'videoback': {
