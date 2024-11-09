@@ -130,10 +130,13 @@ function show_card(theme,uri) {
     card.classList.add(`theme-${theme}`)
 
     card.addEventListener('click', (e) => {
-        if (e.srcElement.nodeName=="svg") { 
-            return; 
+        console.log(e);
+
+        function checkElement(element, substr) {
+            return Array.from(element.classList).some(className => className.includes(substr));
         }
 
+        if (checkElement(e.target,'icon')||checkElement(e.target.parentElement,'icon')) { return; }
         if (isFlipped) {
             card.classList.remove('card--flipped');
             card.classList.add('card--unflipped');
