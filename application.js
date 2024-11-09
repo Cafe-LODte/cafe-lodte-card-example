@@ -32,7 +32,7 @@ async function fetchDataTemplate(uri) {
         throw new Error('Network response was not ok ' + response.statusText);
         }
         fetchedData = await response.json();
-        //console.log(fetchedData);
+        console.log(fetchedData);
         return fetchedData;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -41,6 +41,21 @@ async function fetchDataTemplate(uri) {
 
 function close_card() {
     document.getElementById('cardscene').style.display = "none";
+}
+
+function splash() {
+    document.getElementById('splash').style.display = "none";
+}
+
+
+// Function to be called when the button is clicked
+function showCollection() {
+    document.getElementById('mycollection').style.display = "block";
+    console.log('Show collection button clicked!');
+}
+
+function hideCollection() {
+    document.getElementById('mycollection').style.display = "none";
 }
 
 function add_to_collection() {
@@ -62,7 +77,7 @@ function show_card(_theme,_uri) {
     document.documentElement.style.setProperty('--theme-text', getTextColor(theme_color(theme)));
 
     const cardFront = document.getElementById('card-front-dynamic-content');
-    const cardBack = document.getElementById('card-back');
+    const cardBack = document.getElementById('card-back-dynamic-content');
 
     const customRenderers = {
         'person': {
@@ -143,7 +158,7 @@ function show_card(_theme,_uri) {
     card.classList.add(`theme-${theme}`)
 
     card.addEventListener('click', (e) => {
-        console.log(e);
+        //console.log(e);
 
         function checkElement(element, substr) {
             return Array.from(element.classList).some(className => className.includes(substr));
@@ -172,7 +187,7 @@ function show_card(_theme,_uri) {
     document.getElementById('cardscene').style.display = "block";
 
     themeElement = document.getElementById('theme');
-    themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
+    themeElement.innerHTML = `<img title='${theme}' src='icons/${theme}.png'></img>`
 }
 
 var map;
@@ -187,9 +202,19 @@ function init() {
         add_to_collection();	
     });
 
-    //document.getElementById("sharebutton").addEventListener("click", function() {
-    //    document.getElementById('cardscene').style.display = "none";	
-    //});
+    document.getElementById("splash").addEventListener("click", function() {
+        splash();	
+    });
+
+    document.getElementById("mycollection").addEventListener("click", function(e) {
+        //console.log(e);
+        if (e.target.localName=='button') { return; }
+        showCollection();
+    });
+
+    document.getElementById("closemybutton").addEventListener("click", function() {
+        hideCollection();
+    });
 
 
     map = L.map('histmap').setView([52.375769772784565, 4.8926717051338535], 13);
@@ -252,11 +277,6 @@ function init() {
     fetchData();
 }
 
-// Function to be called when the button is clicked
-function showCollection() {
-    // Your code to show the collection here
-    console.log('Show collection button clicked!');
-}
 
 function fetchData() {
     const url = "https://pathfindr-creator.coret.org/api/get_game/amsterdam";
