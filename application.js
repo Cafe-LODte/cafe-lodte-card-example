@@ -24,7 +24,10 @@ function theme_color(theme) {
 
 async function fetchDataTemplate(uri) {
     try {
+        console.log("https://hackalod.coret.org/api/get_card/"+uri);
+
         const response = await fetch("https://hackalod.coret.org/api/get_card/"+uri);
+        
         if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
         }
@@ -41,7 +44,7 @@ function show_card(theme,uri) {
     //uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
     
     
-    const cardFront = document.getElementById('card-front');
+    const cardFront = document.getElementById('card-front-dynamic-content');
     const cardBack = document.getElementById('card-back');
 
     const customRenderers = {
@@ -65,6 +68,10 @@ function show_card(theme,uri) {
             render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
             target: 'front'
         },
+        'streetimage': {
+            render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
+            target: 'back'
+        },
         'date': {
             render: value => `<div class="card-date">
                 <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
@@ -83,6 +90,9 @@ function show_card(theme,uri) {
     };
 
     order = ['streetname', ]
+
+    cardFront.innerHTML ="";
+    // cardBack.innerHTML ="";
 
     fetchDataTemplate(uri).then(data => {
         const specifiedOrder = ['streetname', 'person', 'identifier'];
