@@ -1,7 +1,63 @@
+
+.share-icon svg {
+    width: 2em;  /* Adjust the size as needed */
+    height: 2em; /* Adjust the size as needed */
+    padding: 1em;
+    fill: #f8f8f8;   /* Adjust the color as needed */
+    cursor: pointer;
+    float: right; 
+}
+
+#theme {
+    float: left;
+    filter: invert(1);
+    padding: 10px;
+}
+
+.card-streetname h2 {
+    background-color: #1E2956;
+    color: white;
+    padding: .5em;
+    margin: .2em;
+    margin-top: .2em;
+    margin-bottom: .2em;
+    border-color: white;
+    border-radius: .5em;
+    border-style: solid;
+}
+
+
+.card-description {
+    background-color: #1E2956;
+    width: 100%;
+    clear: none;
+}
+
+.card-description p {
+    color: white;
+    margin: 1em;
+    padding: 1em;
+
+}
+
+.card-person {
+    float: left;
+}
+
+.card-identifier {
+    float: right;
+}
+
+
+.card-image {
+    clear: both;
+}
+
 .card-image img {
     max-height: 400px; /* Replace 200px with your desired maximum height */
     max-width: 100%;
     height: auto;
+    clear: both;
   }
 
 .card-date {

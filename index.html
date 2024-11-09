@@ -3,6 +3,7 @@
     <!-- borrowing techniques from https://codepen.io/jonnowitts/pen/YdYjmd -->
     <script>
 
+    theme = "artists"
     uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
 
     async function fetchData(uri) {
@@ -20,17 +21,41 @@
     }
 
 
+    function theme_color(theme) {
+        switch (theme) {
+            case "artists":
+            return "#ff3300";
+            case "writers":
+                return "#d60093";
+            case "composers":
+            return "#ffcc00";
+            case "politicians":
+            return "#33ccff";
+            case "athletes":
+            return "#cc66ff";
+            case "women":
+            return "#00ff00";
+            case "mathematicians":
+            return "#2e75b6";	  
+            default:
+            console.log("no color for "+theme);
+            return "#000000"; // Default color, in case of unknown theme
+        }
+    }
+
+
+
     function init() {
         const cardFront = document.getElementById('card-front');
         const cardBack = document.getElementById('card-back');
 
         const customRenderers = {
             'person': {
-                render: value => `<div class="card-streetname"><a href="${value}">Person (wikidata)</a></div>`,
+                render: value => `<div class="card-person"><a href="${value}">Person (wikidata)</a></div>`,
                 target: 'front'
             },            
             'identifier': {
-                render: value => `<div class="card-streetname"><a href="${value}">Street (wikidata)</a></div>`,
+                render: value => `<div class="card-identifier"><a href="${value}">Street (wikidata)</a></div>`,
                 target: 'front'
             },            
             'streetname': {
@@ -62,8 +87,16 @@
 
         };
 
+        order = ['streetname', ]
+
         fetchData(uri).then(data => {
-            for (let key in data) {
+            const specifiedOrder = ['streetname', 'person', 'identifier'];
+            const allKeys = Object.keys(data);
+            const existingSpecifiedOrder = specifiedOrder.filter(key => allKeys.includes(key));
+            const unspecifiedKeys = allKeys.filter(key => !existingSpecifiedOrder.includes(key));
+            const orderedKeys = [...existingSpecifiedOrder, ...unspecifiedKeys];
+
+            for (const key of orderedKeys) {
                 if (data.hasOwnProperty(key)) {
                     let htmlContent;
                     let targetElement = cardFront;
@@ -89,24 +122,25 @@
     <head>
         <meta charset="UTF-8">
         <title>Collector Card Flip</title>
+
         <link rel="stylesheet" type="text/css" href="animation.css">
         <link rel="stylesheet" type="text/css" href="card-elements.css">
+
         <style>
-.share-icon svg {
-  width: 24px;  /* Adjust the size as needed */
-  height: 24px; /* Adjust the size as needed */
-  fill: #333;   /* Adjust the color as needed */
-  cursor: pointer;
-}
+#histmap { width:100%; height:100%; }
+
         </style>
     </head>
     <body  onload="init()">
+
+
 
     <h1>Street card example <span>(Click to flip!)</span></h1>
     <div class="card-scene">
         <div id="card" class="card">
             <div id="card-back" class="card-face card-back">
-                <!-- Back content goes here --> 
+                <!-- Back content goes here -->  
+        
             </div>
             <div id="card-front" class="card-face card-front">
                 <div class="share-icon">
@@ -115,6 +149,12 @@
                       <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.22 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.78 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.78 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.66 16.42 22 18.08 22C19.74 22 21.08 20.66 21.08 19C21.08 17.34 19.74 16 18.08 16H18Z"/>
                     </svg>
                 </div>
+                <div id="theme"></div>
+                <script>
+                    themeElement = document.getElementById('theme');
+                    themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
+                </script>
+
                 <!-- Front content goes here -->
             </div>
         </div>
@@ -124,6 +164,9 @@
         const card = document.getElementById('card');
         let isFlipped = false;
 
+
+        card.classList.add(`theme-${theme}`)
+
         card.addEventListener('click', () => {
             if (isFlipped) {
                 card.classList.remove('card--flipped');
@@ -132,9 +175,23 @@
                 card.classList.remove('card--unflipped');
                 card.classList.add('card--flipped');
             }
+
+            const cardFaces = document.querySelectorAll('.card-face');
+            cardFaces.forEach(face => {
+                face.classList.remove('shine');
+                void face.offsetWidth; // Trigger reflow to restart animation
+                face.classList.add('shine');
+            });
+
             isFlipped = !isFlipped;
         });
     </script>
+
+<div style = "clear:both">
+
+
+</div>
+
 
     </body>
     </html>
