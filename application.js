@@ -96,7 +96,7 @@ function show_card(theme,uri) {
     order = ['streetname', ]
 
     cardFront.innerHTML ="";
-    // cardBack.innerHTML ="";
+    cardBack.innerHTML ="";
 
     fetchDataTemplate(uri).then(data => {
         const specifiedOrder = ['streetname', 'person', 'identifier'];
