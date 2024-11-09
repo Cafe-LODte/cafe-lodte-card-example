@@ -3,22 +3,22 @@
 function theme_color(theme) {
     switch (theme) {
         case "artists":
-        return "#ff3300";
+            return "#ff3300";
         case "writers":
             return "#d60093";
         case "composers":
-        return "#ffcc00";
+            return "#ffcc00";
         case "politicians":
-        return "#33ccff";
+            return "#33ccff";
         case "athletes":
-        return "#cc66ff";
+            return "#cc66ff";
         case "women":
-        return "#00ff00";
+            return "#00ff00";
         case "mathematicians":
-        return "#2e75b6";	  
+            return "#2e75b6";	  
         default:
-        console.log("no color for "+theme);
-        return "#000000"; // Default color, in case of unknown theme
+            console.log("no color for "+theme);
+            return "#000000"; // Default color, in case of unknown theme
     }
 }
 
@@ -39,11 +39,15 @@ async function fetchDataTemplate(uri) {
     }
 }
 
-function show_card(theme,uri) {
-    //theme = "artists"
-    //uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
-    
-    
+function close_card() {
+
+}
+
+function add_to_collection(qnummer,theme) {
+
+}
+
+function show_card(theme,uri) {   
     const cardFront = document.getElementById('card-front-dynamic-content');
     const cardBack = document.getElementById('card-back');
 
