@@ -68,7 +68,18 @@ function showCollection() {
         const value = localStorage.getItem(key);
         const json = JSON.parse(value);
 
-        items+='<div class="collitem"><img src="'+json.image+'" alt="'+json.description+'" height="80"> '+json.streetname+"</div>";
+        console.log(json)
+
+        themeColor = theme_color(json.theme)
+        console.log(theme)
+
+//#show_card(cardset.theme,card.identifier);
+
+        items+=`<div class="collitem" style="--i: ${i};" onclick="show_card('${json.theme}','${key}')"><div>`
+        items+=`<div class="library-card-streetname" style="background-color:${themeColor}; float: left;"><h2>${json.streetname}</h2></div>`
+        items+='<img src="'+json.image+'" alt="'+json.description+'"></img>'
+        items+='</div></div>';
+
     }
     document.getElementById('collectionitems').innerHTML=items;
 }
@@ -84,7 +95,7 @@ function closeadded() {
 
 function add_to_collection() {
     //console.log(fetchedData);
-    fetchData.theme=theme;
+    fetchedData.theme=theme;
     const jsonString = JSON.stringify(fetchedData);
     //console.log(uri);
     localStorage.setItem(uri, jsonString);
@@ -157,7 +168,6 @@ function show_card(_theme,_uri) {
     };
 
     order = ['streetname', ]
-
     cardFront.innerHTML ="";
     cardBack.innerHTML ="";
 
