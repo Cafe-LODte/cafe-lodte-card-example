@@ -1,3 +1,45 @@
+const customRenderers = {
+    'person': {
+        render: value => `<div class="card-person"><a href="${value}">Person (wikidata)</a></div>`,
+        target: 'front'
+    },            
+    'identifier': {
+        render: value => `<div class="card-identifier"><a href="${value}">Street (wikidata)</a></div>`,
+        target: 'front'
+    },            
+    'streetname': {
+        render: value => `<div class="card-streetname"><h2>${value}</h2></div>`,
+        target: 'front'
+    },
+    'description': {
+        render: value => `<div class="card-description"><p>${value}</p></div>`,
+        target: 'front'
+    },
+    'image': {
+        render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
+        target: 'front'
+    },
+    'streetimage': {
+        render: value => `<div class="card-streetimage"><img src="${value}" alt="Image"></div>`,
+        target: 'back'
+    },
+    'date': {
+        render: value => `<div class="card-date">
+            <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
+            </div>`,
+        target: 'front'
+    },
+    'multiline': {
+        render: value => ``,
+        target: 'front'
+    },
+    'point': {
+        render: value => ``,
+        target: 'front'
+    }
+
+};
+
 function theme_color(theme) {
     switch (theme) {
         case "artists":
@@ -66,7 +108,18 @@ function showCollection() {
         const value = localStorage.getItem(key);
         const json = JSON.parse(value);
 
-        items+='<div class="collitem"><img src="'+json.image+'" alt="'+json.description+'" height="80"> '+json.streetname+"</div>";
+        console.log(json)
+
+        themeColor = theme_color(json.theme)
+        console.log(theme)
+
+//#show_card(cardset.theme,card.identifier);
+
+        items+=`<div class="collitem" style="--i: ${i};" onclick="show_card('${json.theme}','${key}')"><div>`
+        items+=`<div class="library-card-streetname" style="background-color:${themeColor}; float: left;"><h2>${json.streetname}</h2></div>`
+        items+='<img src="'+json.image+'" alt="'+json.description+'"></img>'
+        items+='</div></div>';
+
     }
     document.getElementById('collectionitems').innerHTML=items;
 }
@@ -77,7 +130,7 @@ function hideCollection() {
 
 function add_to_collection() {
     //console.log(fetchedData);
-    fetchData.theme=theme;
+    fetchedData.theme=theme;
     const jsonString = JSON.stringify(fetchedData);
     //console.log(uri);
     localStorage.setItem(uri, jsonString);
@@ -95,50 +148,6 @@ function show_card(_theme,_uri) {
 
     const cardFront = document.getElementById('card-front-dynamic-content');
     const cardBack = document.getElementById('card-back-dynamic-content');
-
-    const customRenderers = {
-        'person': {
-            render: value => `<div class="card-person"><a href="${value}">Person (wikidata)</a></div>`,
-            target: 'front'
-        },            
-        'identifier': {
-            render: value => `<div class="card-identifier"><a href="${value}">Street (wikidata)</a></div>`,
-            target: 'front'
-        },            
-        'streetname': {
-            render: value => `<div class="card-streetname"><h2>${value}</h2></div>`,
-            target: 'front'
-        },
-        'description': {
-            render: value => `<div class="card-description"><p>${value}</p></div>`,
-            target: 'front'
-        },
-        'image': {
-            render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
-            target: 'front'
-        },
-        'streetimage': {
-            render: value => `<div class="card-streetimage"><img src="${value}" alt="Image"></div>`,
-            target: 'back'
-        },
-        'date': {
-            render: value => `<div class="card-date">
-                <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
-                </div>`,
-            target: 'front'
-        },
-        'multiline': {
-            render: value => ``,
-            target: 'front'
-        },
-        'point': {
-            render: value => ``,
-            target: 'front'
-        }
-
-    };
-
-    order = ['streetname', ]
 
     cardFront.innerHTML ="";
     cardBack.innerHTML ="";
