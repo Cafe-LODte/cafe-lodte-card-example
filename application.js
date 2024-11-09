@@ -87,7 +87,7 @@ function add_to_collection() {
     //console.log(uri);
     localStorage.setItem(uri, jsonString);
 
-    document.getElementById('added').innerHTML="<h1>Great, you've collected another card in the "+theme+" catagory!</h1>";
+    document.getElementById('added').innerHTML="<h1>Great, you've collected another card in the "+theme+" category!</h1>";
     document.getElementById('added').style.display = "block";
 
      document.getElementById('addbutton').innerHTML="<span>&#9989;</span>";

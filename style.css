@@ -25,9 +25,10 @@ body { margin:0;overflow: hidden; }
     z-index:2000;
     text-align:center;
     background-image: url(https://hackalod.coret.org/assets/B00000023453.jpg);
+    
 }
 .card-streetimage { display:none}
-#startgame { width:70%;background-color:#ef6e22;color:white;font-size:2em;padding:1em}
+#startgame { width:70%;background-color:#ef6e22;color:white;font-size:2em;padding:1em;margin-top:1em}
 #mycollection  h1 { background-color:#2580a4;padding:20px;margin-top:-5px;color:white }
 #mycollection  {
     display:none;
