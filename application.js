@@ -162,7 +162,7 @@ function show_card(_theme,_uri) {
     cardBack.innerHTML ="";
 
     fetchDataTemplate(uri).then(data => {
-        const specifiedOrder = ['date','streetname', 'person', 'identifier'];
+        const specifiedOrder = ['streetname', 'person','date', 'identifier'];
         const allKeys = Object.keys(data);
         const existingSpecifiedOrder = specifiedOrder.filter(key => allKeys.includes(key));
         const unspecifiedKeys = allKeys.filter(key => !existingSpecifiedOrder.includes(key));
