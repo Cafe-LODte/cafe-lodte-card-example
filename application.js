@@ -69,7 +69,7 @@ function show_card(theme,uri) {
             target: 'front'
         },
         'streetimage': {
-            render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
+            render: value => `<div class="card-streetimage"><img src="${value}" alt="Image"></div>`,
             target: 'back'
         },
         'date': {
