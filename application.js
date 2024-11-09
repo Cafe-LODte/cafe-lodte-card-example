@@ -51,7 +51,24 @@ function splash() {
 // Function to be called when the button is clicked
 function showCollection() {
     document.getElementById('mycollection').style.display = "block";
-    console.log('Show collection button clicked!');
+    //console.log('Show collection button clicked!');
+
+    let items="";
+    
+    // ,"streetname":"Van Limburg Stirumstraat",
+    
+    //"image":"http://commons.wikimedia.org/wiki/Special:FilePath/Leopold%20van%20Limburg%20Stirum.jpg"
+    //"description":"Leopold Count van Limburg Stirum was a politician who was part of the Triumvirate that took p
+
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        const json = JSON.parse(value);
+
+        items+='<div class="collitem"><img src="'+json.image+'" alt="'+json.description+'" height="80"> '+json.streetname+"</div>";
+    }
+    document.getElementById('collectionitems').innerHTML=items;
 }
 
 function hideCollection() {
@@ -215,7 +232,6 @@ function init() {
     document.getElementById("closemybutton").addEventListener("click", function() {
         hideCollection();
     });
-
 
     map = L.map('histmap').setView([52.375769772784565, 4.8926717051338535], 13);
 

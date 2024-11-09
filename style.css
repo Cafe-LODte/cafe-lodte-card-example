@@ -27,8 +27,6 @@ body { margin:0;overflow: hidden; }
     background-image: url(https://hackalod.coret.org/assets/B00000023453.jpg);
 }
 #startgame { width:70%;background-color:#ef6e22;color:white;font-size:2em;padding:1em}
-
-
 #mycollection  h1 { background-color:#2580a4;padding:20px;margin-top:-5px;color:white }
 #mycollection  {
     display:none;
@@ -43,3 +41,7 @@ body { margin:0;overflow: hidden; }
     background-image: url(https://hackalod.coret.org/assets/B00000023453.jpg);
 }
 #closemycollection { width:40%;background-color:#ef6e22;color:white;font-size:1em;padding:1em}
+#closemybutton { margin-top:20px; width:40%;background-color:#ef6e22;color:white;font-size:1em;padding:0.5em}
+#collectionitems { background-color:rgb(239, 233, 233); padding: 30px;}
+.collitem img { vertical-align: middle;margin:10px;}
+.collitem { font-size:2em }
