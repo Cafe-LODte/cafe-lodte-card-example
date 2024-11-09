@@ -4,6 +4,9 @@
     height: 800px;
     perspective: 800px;
     animation: cardAppear 1.4s forwards;
+    position: absolute;
+    z-index: 1000;  
+    display:none;
 }   
 
 /* Keyframes for entry animation */

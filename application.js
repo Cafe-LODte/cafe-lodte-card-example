@@ -135,8 +135,8 @@ function show_card(theme,uri) {
         isFlipped = !isFlipped;
     });
 
-    document.getElementById('cardcontent').style.display = "block";
-    
+    document.getElementById('cardscene').style.display = "block";
+
       themeElement = document.getElementById('theme');
        themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
 }
