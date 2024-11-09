@@ -40,14 +40,24 @@ async function fetchDataTemplate(uri) {
 }
 
 function close_card() {
-
+    document.getElementById('cardscene').style.display = "none";
 }
 
-function add_to_collection(qnummer,theme) {
-
+function add_to_collection() {
+    //console.log(fetchedData);
+    fetchData.theme=theme;
+    const jsonString = JSON.stringify(fetchedData);
+    //console.log(uri);
+    localStorage.setItem(uri, jsonString);
 }
 
-function show_card(theme,uri) {   
+var theme;
+var uri;
+
+function show_card(_theme,_uri) {   
+    theme=_theme;
+    uri=_uri;
+
     const cardFront = document.getElementById('card-front-dynamic-content');
     const cardBack = document.getElementById('card-back');
 
@@ -166,8 +176,17 @@ var map;
 function init() {
 
     document.getElementById("closebutton").addEventListener("click", function() {
-        document.getElementById('cardscene').style.display = "none";	
+        close_card();	
     });
+
+    document.getElementById("addbutton").addEventListener("click", function() {
+        add_to_collection();	
+    });
+
+    //document.getElementById("sharebutton").addEventListener("click", function() {
+    //    document.getElementById('cardscene').style.display = "none";	
+    //});
+
 
     map = L.map('histmap').setView([52.375769772784565, 4.8926717051338535], 13);
 
@@ -196,12 +215,43 @@ function init() {
     // Add the layers control to the map
     L.control.layers(baseLayers).addTo(map);
     
-    
-    
     // Add one of the layers to the map initially
     openStreetMap.addTo(map);
+
+    const showCollectionControl = L.control({ position: 'bottomright' });
+
+    showCollectionControl.onAdd = function(map) {
+    // Create a button element
+    const button = L.DomUtil.create('button', 'my-custom-button');
+    button.innerHTML = "Show My Collection";
+    button.style.padding = "10px";
+    button.style.backgroundColor = "#fff";
+    button.style.color = "#444";
+    button.style.border = "#444";
+    button.style.borderRadius = "5px";
+    button.style.cursor = "pointer";
     
+    // Prevent map interactions when clicking the button
+    L.DomEvent.disableClickPropagation(button);
+    
+    // Add click event to the button to call the showCollection function
+    button.onclick = function() {
+        showCollection();
+    };
+
+    return button;
+    };
+
+    // Add the button to the map
+    showCollectionControl.addTo(map);
+
     fetchData();
+}
+
+// Function to be called when the button is clicked
+function showCollection() {
+    // Your code to show the collection here
+    console.log('Show collection button clicked!');
 }
 
 function fetchData() {
