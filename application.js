@@ -14,6 +14,8 @@ function theme_color(theme) {
             return "#00ff00";
         case "mathematicians":
             return "#2e75b6";	  
+        case "resistancefigthers":
+            return "#548235";
         default:
             console.log("no color for "+theme);
             return "#000000"; // Default color, in case of unknown theme
@@ -160,7 +162,7 @@ function show_card(_theme,_uri) {
     cardBack.innerHTML ="";
 
     fetchDataTemplate(uri).then(data => {
-        const specifiedOrder = ['streetname', 'person', 'identifier'];
+        const specifiedOrder = ['date','streetname', 'person', 'identifier'];
         const allKeys = Object.keys(data);
         const existingSpecifiedOrder = specifiedOrder.filter(key => allKeys.includes(key));
         const unspecifiedKeys = allKeys.filter(key => !existingSpecifiedOrder.includes(key));
@@ -250,7 +252,7 @@ function init() {
         hideCollection();
     });
 
-    map = L.map('histmap').setView([52.375769772784565, 4.8926717051338535], 13);
+    map = L.map('histmap').setView([52.36989183301604, 4.870368704430573], 13);
 
     var openStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}.pbf', {
       attribution: 'Map of Today'
@@ -308,7 +310,7 @@ function init() {
     showCollectionControl.addTo(map);
 
     // TODO current location
-
+/*
     const imageUrl1 = 'https://hackalod.coret.org/icons/athletes.png';
     const imageBounds1 = [[52.3948, 4.9025], [52.3978, 4.9055]]; 
     L.imageOverlay(imageUrl1, imageBounds1).addTo(map);
@@ -317,7 +319,7 @@ function init() {
     const imageBounds5 = [[52.3669, 4.8772], [52.3699, 4.8772]]; 
     L.imageOverlay(imageUrl5, imageBounds5).addTo(map);
 
-/*   const imageUrl2 = 'https://hackalod.coret.org/icons/artists.png';
+   const imageUrl2 = 'https://hackalod.coret.org/icons/artists.png';
     const imageBounds2 = [[52.39477, 4.90254], [52.39687, 4.908555]]; 
     L.imageOverlay(imageUrl2, imageBounds2).addTo(map);
 
@@ -325,7 +327,7 @@ function init() {
     const imageUrl3 = 'https://hackalod.coret.org/icons/composers.png';
     const imageBounds3 = [[52.39477, 4.90254], [52.39687, 4.908555]]; 
     L.imageOverlay(imageUrl3, imageBounds3).addTo(map);
-*/
+
     const imageUrl4 = 'https://hackalod.coret.org/icons/women.png';
     const imageBounds4 = [[52.3536, 4.8451], [52.3566, 4.8481]]; 
     L.imageOverlay(imageUrl4, imageBounds4).addTo(map);
@@ -338,7 +340,7 @@ function init() {
     const imageUrl7 = 'https://hackalod.coret.org/icons/mathematicians.png';
     const imageBounds7 = [[52.3582, 4.9200], [52.3602, 4.9230]]; 
     L.imageOverlay(imageUrl7, imageBounds7).addTo(map);
-
+*/
     fetchData();
 }
 
@@ -377,7 +379,7 @@ function processData(data) {
           try {
               wkt.read(card.aswkt);
               feature={ "type": "Feature", "geometry": wkt.toJson() };
-              let geoJsonLayer = L.geoJSON(feature, { style: { color: color, weight: 5 }}).addTo(map);
+              let geoJsonLayer = L.geoJSON(feature, { style: { color: color, weight: 8 }}).addTo(map);
               geoJsonLayer.on('click', function() {
                 show_card(cardset.theme,card.identifier);
               });
