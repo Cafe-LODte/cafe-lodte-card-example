@@ -20,17 +20,19 @@ function theme_color(theme) {
     }
 }
 
+var fetchedData;
+
 async function fetchDataTemplate(uri) {
     try {
-        console.log("https://hackalod.coret.org/api/get_card/"+uri);
+        //console.log("https://hackalod.coret.org/api/get_card/"+uri);
 
         const response = await fetch("https://hackalod.coret.org/api/get_card/"+uri);
         
         if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
         }
-        const fetchedData = await response.json();
-        console.log(fetchedData);
+        fetchedData = await response.json();
+        //console.log(fetchedData);
         return fetchedData;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -119,19 +121,19 @@ function show_card(theme,uri) {
             }
         }
 
-        console.log('Data received:', data);
+        //console.log('Data received:', data);
     });
 
     const card = document.getElementById('card');
     let isFlipped = false;
 
-
     card.classList.add(`theme-${theme}`)
 
     card.addEventListener('click', (e) => {
+        if (e.srcElement.nodeName=="svg") { 
+            return; 
+        }
 
-        console.log(e);
-        if (e.srcElement.nodeName=="svg") { return; }
         if (isFlipped) {
             card.classList.remove('card--flipped');
             card.classList.add('card--unflipped');
@@ -238,7 +240,7 @@ function processData(data) {
                 show_card(cardset.theme,card.identifier);
               });
           } catch (e) {
-              console.log(e);
+              console.log(e,card);
           }
       
       
