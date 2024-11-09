@@ -1,141 +1,21 @@
     <!DOCTYPE html>
-    <html lang="en">
-    <!-- borrowing techniques from https://codepen.io/jonnowitts/pen/YdYjmd -->
-    <script>
-
-    theme = "artists"
-    uri = 'https://pathfindr-creator.coret.org/api/get_card/Q19328795'
-
-    async function fetchData(uri) {
-    try {
-        const response = await fetch(uri);
-        if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-        }
-        const fetchedData = await response.json();
-        console.log(fetchedData);
-        return fetchedData;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-    }
-
-
-    function theme_color(theme) {
-        switch (theme) {
-            case "artists":
-            return "#ff3300";
-            case "writers":
-                return "#d60093";
-            case "composers":
-            return "#ffcc00";
-            case "politicians":
-            return "#33ccff";
-            case "athletes":
-            return "#cc66ff";
-            case "women":
-            return "#00ff00";
-            case "mathematicians":
-            return "#2e75b6";	  
-            default:
-            console.log("no color for "+theme);
-            return "#000000"; // Default color, in case of unknown theme
-        }
-    }
-
-
-
-    function init() {
-        const cardFront = document.getElementById('card-front');
-        const cardBack = document.getElementById('card-back');
-
-        const customRenderers = {
-            'person': {
-                render: value => `<div class="card-person"><a href="${value}">Person (wikidata)</a></div>`,
-                target: 'front'
-            },            
-            'identifier': {
-                render: value => `<div class="card-identifier"><a href="${value}">Street (wikidata)</a></div>`,
-                target: 'front'
-            },            
-            'streetname': {
-                render: value => `<div class="card-streetname"><h2>${value}</h2></div>`,
-                target: 'front'
-            },
-            'description': {
-                render: value => `<div class="card-description"><p>${value}</p></div>`,
-                target: 'front'
-            },
-            'image': {
-                render: value => `<div class="card-image"><img src="${value}" alt="Image"></div>`,
-                target: 'front'
-            },
-            'date': {
-                render: value => `<div class="card-date">
-                    <time class="card-date-start" datetime="${value.startdate}">${new Date(value.startdate).getFullYear()}</time>-<time class="card-date-end" datetime="${value.enddate}">${new Date(value.enddate).getFullYear()}</time>
-                    </div>`,
-                target: 'front'
-            },
-            'multiline': {
-                render: value => ``,
-                target: 'front'
-            },
-            'point': {
-                render: value => ``,
-                target: 'front'
-            }
-
-        };
-
-        order = ['streetname', ]
-
-        fetchData(uri).then(data => {
-            const specifiedOrder = ['streetname', 'person', 'identifier'];
-            const allKeys = Object.keys(data);
-            const existingSpecifiedOrder = specifiedOrder.filter(key => allKeys.includes(key));
-            const unspecifiedKeys = allKeys.filter(key => !existingSpecifiedOrder.includes(key));
-            const orderedKeys = [...existingSpecifiedOrder, ...unspecifiedKeys];
-
-            for (const key of orderedKeys) {
-                if (data.hasOwnProperty(key)) {
-                    let htmlContent;
-                    let targetElement = cardFront;
-
-                    if (customRenderers[key]) {
-                        htmlContent = customRenderers[key].render(data[key]);
-                        targetElement = customRenderers[key].target === 'back' ? cardBack : cardFront;
-                    } else {
-                        htmlContent = `<div class="card-${key}"><span>${data[key]}</span></div>`;
-                    }
-
-                    targetElement.innerHTML += htmlContent;
-                }
-            }
-
-            console.log('Data received:', data);
-        });
-    }
-
-
-    </script>
-    
+    <html lang="en">    
     <head>
         <meta charset="UTF-8">
         <title>Collector Card Flip</title>
-
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>	 
+        <script src="https://www.goudatijdmachine.nl/omeka/files/js/wicket.js" crossorigin=""></script>	
         <link rel="stylesheet" type="text/css" href="animation.css">
         <link rel="stylesheet" type="text/css" href="card-elements.css">
-
-        <style>
-#histmap { width:100%; height:100%; }
-
-        </style>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body  onload="init()">
 
+ <div id="histmap"></div>
+<div id="card">
+<div id="cardcontent" style="display:none">
 
-
-    <h1>Street card example <span>(Click to flip!)</span></h1>
     <div class="card-scene">
         <div id="card" class="card">
             <div id="card-back" class="card-face card-back">
@@ -150,48 +30,19 @@
                     </svg>
                 </div>
                 <div id="theme"></div>
-                <script>
-                    themeElement = document.getElementById('theme');
-                    themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
-                </script>
-
+                
                 <!-- Front content goes here -->
             </div>
         </div>
     </div>
 
-    <script>
-        const card = document.getElementById('card');
-        let isFlipped = false;
-
-
-        card.classList.add(`theme-${theme}`)
-
-        card.addEventListener('click', () => {
-            if (isFlipped) {
-                card.classList.remove('card--flipped');
-                card.classList.add('card--unflipped');
-            } else {
-                card.classList.remove('card--unflipped');
-                card.classList.add('card--flipped');
-            }
-
-            const cardFaces = document.querySelectorAll('.card-face');
-            cardFaces.forEach(face => {
-                face.classList.remove('shine');
-                void face.offsetWidth; // Trigger reflow to restart animation
-                face.classList.add('shine');
-            });
-
-            isFlipped = !isFlipped;
-        });
-    </script>
-
-<div style = "clear:both">
-
-
+</div>
+<p><br><br><a id="closeinfobut">close</a></p>
 </div>
 
+
+
+<script src="application.js"></script>
 
     </body>
     </html>
