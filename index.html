@@ -25,6 +25,14 @@
         const cardBack = document.getElementById('card-back');
 
         const customRenderers = {
+            'person': {
+                render: value => `<div class="card-streetname"><a href="${value}">Person (wikidata)</a></div>`,
+                target: 'front'
+            },            
+            'identifier': {
+                render: value => `<div class="card-streetname"><a href="${value}">Street (wikidata)</a></div>`,
+                target: 'front'
+            },            
             'streetname': {
                 render: value => `<div class="card-streetname"><h2>${value}</h2></div>`,
                 target: 'front'
@@ -47,14 +55,10 @@
                 render: value => ``,
                 target: 'front'
             },
-            'identifier': {
-                render: value => ``,
-                target: 'front'
-            },
             'point': {
                 render: value => ``,
                 target: 'front'
-            },
+            }
 
         };
 
@@ -87,6 +91,14 @@
         <title>Collector Card Flip</title>
         <link rel="stylesheet" type="text/css" href="animation.css">
         <link rel="stylesheet" type="text/css" href="card-elements.css">
+        <style>
+.share-icon svg {
+  width: 24px;  /* Adjust the size as needed */
+  height: 24px; /* Adjust the size as needed */
+  fill: #333;   /* Adjust the color as needed */
+  cursor: pointer;
+}
+        </style>
     </head>
     <body  onload="init()">
 
@@ -97,6 +109,12 @@
                 <!-- Back content goes here --> 
             </div>
             <div id="card-front" class="card-face card-front">
+                <div class="share-icon">
+                    <!-- Share Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#333" viewBox="0 0 24 24">
+                      <path d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.22 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.78 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.78 15 7.5 14.69 8.04 14.19L15.16 18.35C15.11 18.56 15.08 18.78 15.08 19C15.08 20.66 16.42 22 18.08 22C19.74 22 21.08 20.66 21.08 19C21.08 17.34 19.74 16 18.08 16H18Z"/>
+                    </svg>
+                </div>
                 <!-- Front content goes here -->
             </div>
         </div>
