@@ -1,5 +1,3 @@
-
-
 function theme_color(theme) {
     switch (theme) {
         case "artists":
@@ -130,7 +128,10 @@ function show_card(theme,uri) {
 
     card.classList.add(`theme-${theme}`)
 
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+
+        console.log(e);
+        if (e.srcElement.nodeName=="svg") { return; }
         if (isFlipped) {
             card.classList.remove('card--flipped');
             card.classList.add('card--unflipped');
@@ -151,21 +152,23 @@ function show_card(theme,uri) {
 
     document.getElementById('cardscene').style.display = "block";
 
-      themeElement = document.getElementById('theme');
-       themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
+    themeElement = document.getElementById('theme');
+    themeElement.innerHTML = `<img src='icons/${theme}.png'></img>`
 }
 
 var map;
 
 function init() {
 
+    document.getElementById("closebutton").addEventListener("click", function() {
+        document.getElementById('cardscene').style.display = "none";	
+    });
+
     map = L.map('histmap').setView([52.375769772784565, 4.8926717051338535], 13);
 
- 
     var openStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}.pbf', {
       attribution: 'Map of Today'
     });
-    
     
     // Define the two tile layers
     var historicalMap1876 = L.tileLayer('https://images.huygens.knaw.nl/webmapper/maps/loman/{z}/{x}/{y}.jpeg', {
@@ -241,7 +244,4 @@ function processData(data) {
       
       });
     });
-      //map.fitBounds(L.geoJSON(feature).getBounds(),{maxZoom:19});
-  
   }
-  
